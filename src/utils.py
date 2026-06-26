@@ -5,7 +5,9 @@ import sys
 import pickle 
 from src.exception import CustomException
 from sklearn.metrics import r2_score
-from sklearn.model_selection import RandomizedSearchCV
+from sklearn.model_selection import GridSearchCV
+import mlflow
+import mlflow.sklearn
 
 
 def save_object(file_path , obj):
@@ -23,26 +25,28 @@ def save_object(file_path , obj):
 def  evaluate_model(X_train, y_train,X_test,y_test,models,param):
     try:
         report= {}
+        trained_models= {}
+        mlflow.sklearn.autolog(log_models=True ,max_tuning_runs=None)
         
+        for model_name , model in models.items():
+            para = param[model_name]
+            
+            gs = GridSearchCV(model,para,cv=3 , scoring="r2")
+            gs.fit(X_train,y_train)
+             
+            best_model = gs.best_estimator_
+            
+            y_train_pred = best_model.predict(X_train)
+            y_test_pred = best_model.predict(X_test)
+            
+            train_model_score = r2_score(y_train, y_train_pred)
+            test_model_score = r2_score(y_test, y_test_pred)
+
+            mlflow.log_metric("test_r2_score", test_model_score)
+            report[model_name] = test_model_score
+            trained_models[model_name] = best_model
         
-        for i in range(len(list(models))):
-            model = list(models.values())[i]
-            para = param[list(models.keys())[i]]
-            
-            rs = RandomizedSearchCV(model,para,cv=3)
-            rs.fit(X_train,y_train)
-            
-            model.set_params(**rs.best_params_)
-            model.fit(X_train,y_train)
-            
-            y_train_pred = model.predict(X_train)
-            y_test_pred = model.predict(X_test)
-            
-            train_model_score = r2_score(y_train_pred,y_train)
-            test_model_score = r2_score(y_test_pred,y_test)
-            
-            report[list(models.keys())[i]] = test_model_score
-        return report
+        return report , trained_models
        
     except Exception as e:
         raise CustomException(e,sys)

@@ -10,4 +10,5 @@ streamlit
 ipykernel
 pickle
 mlflow
+setuptools
 -e .

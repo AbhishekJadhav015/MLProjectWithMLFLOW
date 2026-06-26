@@ -21,7 +21,7 @@ with st.form("prediction_form"):
         "model",
         options=['A53' 'A12' 'A53s 5G' 'A33' 'A31' 'A74 5G' 'A11K' 'F17 Pro' 'A54''Reno6 5G' 'F17' 'A16' 'Reno5 Pro 5G' 'A15' 'A74 5G BLACK' 'Reno6 Pro 5G''Reno2 F' 'Reno3 Pro' 'A15s' 'A15S' 'F19 Pro' 'F19 Pro+ 5G' 'F19' 'A7''F5' 'A5s' 'Reno' 'Reno2 Z' 'F15' 'K1' 'A9 2020' 'Find X'
             'Reno4 Pro Special Edition' 'F11' 'A5' 'Reno4 Pro' 'A5 2020''F3 Deepika Padukone Limited Edition' 'F1 Plus' 'A83 2018 Edition' 'F3''A3s' 'A83' 'K3' 'F9' 'A52' 'A71 New Edition' 'Neo 7 4G' 'A71' 'A57''A1K' 'A37f' 'F9 Pro' 'F19s' 'A71k' 'A9' 'F3 Plus''Rohit Sharma Limited Edition' 'F17 PRO' 'Hardik Pandya Limited Editon''Ravichandran Ashwin Limited Edition' 'F11 Pro' 'R1 R829' 'F5 Youth' 'F7'
-            'Neo 5' 'F1' 'Reno2' 'R17' 'F11 Pro Marvels Avengers Limited Edition''Reno 10x Zoom' 'F1S' 'N5111' 'U11+ ' 'Wildfire X ' '3' '4a ' '3a XL ''3 XL ' '3a ' 'XL ' '2 XL ' '2' ,np.nan, 'W11 ' 'Velvet Dual Screen ' 'Q60 ''L90 Dual ' 'W31 ' 'W31 Plus ' 'K42 ' 'W30 Pro ' 'Candy K9 ' 'K9 4G LTE '
+            'Neo 5' 'F1' 'Reno2' 'R17' 'F11 Pro Marvels Avengers Limited Edition''Reno 10x Zoom' 'F1S' 'N5111' 'U11+ ' 'Wildfire X ' '3' '4a ' '3a XL ''3 XL ' '3a ' 'XL ' '2 XL ' '2' 'W11 ' 'Velvet Dual Screen ' 'Q60 ''L90 Dual ' 'W31 ' 'W31 Plus ' 'K42 ' 'W30 Pro ' 'Candy K9 ' 'K9 4G LTE '
             'W10 ' 'K-10 ' 'W41 ' 'Q Stylus+ ' 'W10 Alpha ' 'W30 ' 'W30 Plus ''G7+ ThinQ ' 'Stylus 2 ' 'Max X160 ' 'V20 ' 'G8X ' 'V40 ThinQ ' 'K7i ''Nexus4 E960' 'G7 ThinQ ' 'Nexus 5X ' 'G5 ' 'Q6+ ' 'Spirit 4G LTE ''Velvet ' 'W41 Plus ' 'Wing ' 'W41 Pro ' 'Optimus L70 ' 'K8 ' 'G Pro 2 '
             'V30+ ' 'G2 D802 ' 'Q Stylus ' 'Q6 ' 'G6 ' 'K10 2017 ' 'V20a ''K10 K420DS ' 'Q7 ' 'X Power ' 'Stylus 2 Plus ' 'K-7 ' 'G3 Beat ''G8s ThinQ ' 'G4 ' 'Stylus 3 ' 'L Bello ' 'G4 Stylus 4G LTE ' 'X Cam ''L 80 Dual ' 'G3 Stylus ' 'Q7+ ' 'X Screen K500I ' 'Spirit ''ROG Phone 5 ' 'ROG Phone 3 ' 'Zenfone Max Pro M1 ''Zenfone 2 Laser ZE500KL ' 'ZenFone Max M2 ' 'ZenFone 5Z ' '6Z '
             'Zenfone Go 4.5 ' 'Zenfone Go 5.5 ' 'Zenfone Go 3rd Gen''Zenfone Go 2nd Gen' 'Zenfone Go ' 'ZenFone Lite L1 ' 'Zenfone 4 Selfie ''ROG Phone II ' 'Zenfone GO ' 'Zenfone Go 5.0 ' 'ZenFone Max Pro M2 ' 'Zenfone Go 5.0 LTE 2nd Gen ' 'Zenfone C ' 'Zenfone Go 5.0 LTE '
@@ -61,7 +61,7 @@ with st.form("prediction_form"):
         options=['Black''White/Cream' 'Blue' 'Silver' 'Green' 'Purple' 'Gold' 'Aurora'
             'White' 'Orange' 'Red' 'Starry Night' 'Grey' 'Pink' 'Brown' 'Ice'
             'Black & Blue' 'Black & Gold' 'Illusion Sky' 'Yellow' 'Nebula'
-            'Diamond Sapphire' 'Purple/Pink' ,np.nan, 'Fjord' 'Glacier' 'Polar Night'
+            'Diamond Sapphire' 'Purple/Pink' 'Fjord' 'Glacier' 'Polar Night'
             'Gold/Beige' 'Dusk' 'Night' 'Copper/Bronze' 'Black & Copper'
             'Blue & Silver' 'Baltic' 'Silver/Grey' 'Cyan/Teal' 'White & Copper'
             'Silver/White' 'Black/Grey' 'Cloud Navy' 'Aura Glow' 'Sprite'
