@@ -1,3 +1,4 @@
+from typing import List
 from setuptools import find_packages , setup
 
 def get_requirements(file_path:str)-> List[str]: 
@@ -8,11 +9,11 @@ def get_requirements(file_path:str)-> List[str]:
     requiremnets =[]
     with open(file_path) as file_obj :
         requiremnets = file_obj.readlines()
-        requiremnets= [requiremnets.replace("\n"," ") for req in requiremnets]
+        requiremnets= [req.replace("\n","").strip() for req in requiremnets]
         
         if HYPEN_E_DOT in requiremnets:
             requiremnets.remove(HYPEN_E_DOT)
-            
+        
     return requiremnets
     
     

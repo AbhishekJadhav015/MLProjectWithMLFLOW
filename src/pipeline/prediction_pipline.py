@@ -14,7 +14,7 @@ class PredictPipeline:
             preprocessor_path = os.path.join("artifacts","preprocessor.pkl")
             print("before loading ")
             model = load_obj(file_path = model_path)
-            preprocessor = load_obj(file_path = model_path)
+            preprocessor = load_obj(file_path = preprocessor_path)
             print("after loading")
             data_scaled = preprocessor.transform(features)
             preds = model.predict(data_scaled)
@@ -24,7 +24,7 @@ class PredictPipeline:
             raise CustomException(e,sys)
         
 class CustomData:
-    def __int__(self,Brand:str ,Model:str ,Color: str ,Rating:int ,Original_Price : int , Memory :int ,Storage: int):
+    def __init__(self, Brand , Model , Color , Rating , Original_Price ,Memory , Storage ):
         self.brand = Brand
         self.model = Model
         self.color = Color

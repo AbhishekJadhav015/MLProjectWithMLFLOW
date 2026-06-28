@@ -1,3 +1,4 @@
+from narwhals import col
 import pandas as pd
 import re
 import numpy as np
@@ -14,7 +15,7 @@ from sklearn.preprocessing import OneHotEncoder,StandardScaler
 
 @dataclass
 class DataTransformationConfig:
-    preprocessor_obj__file_path = os.join.path("artifacts","preprocessor.pkl")
+    preprocessor_obj_file_path = os.path.join("artifacts","preprocessor.pkl")
     
 class DataTransformation:
     def __init__(self):
@@ -62,9 +63,9 @@ class DataTransformation:
     def get_data_transformer_obj(self):
         
         try:
-            numerical_columns =['Memory_Cleaned','Storage_Cleaned','Rating','Original Price'],
+            numerical_columns =['Memory_Cleaned','Storage_Cleaned','Rating','Original Price']
             categorical_columns = ['Brand', 'Model', 'Color']
-            
+                    
             num_pipline = Pipeline(
                 steps=[
                     ("Imputer",SimpleImputer(strategy="median")),
@@ -74,8 +75,8 @@ class DataTransformation:
             
             cat_pipline = Pipeline(
                 steps=[
-                    ("Imputer",SimpleImputer(strategy="most frequent")),
-                    ("OneHotEncoding",OneHotEncoder())
+                    ("Imputer",SimpleImputer(strategy="most_frequent")),
+                    ("OneHotEncoding",OneHotEncoder(handle_unknown="ignore", sparse_output=False))
                 ]
             )
             logging.info(f"categorical columns:{categorical_columns}")
@@ -97,7 +98,20 @@ class DataTransformation:
                 train_df = pd.read_csv(train_path)
                 test_df = pd.read_csv(test_path)
                 
-                logging.info("reading train and test complete")
+                logging.info("Read train and test data completed")
+                
+                for col in ['Brand', 'Model', 'Color']:
+                    if col in train_df.columns:
+                        train_df[col] = train_df[col].astype(str).str.strip()
+                    if col in test_df.columns:
+                        test_df[col] = test_df[col].astype(str).str.strip()
+                
+                logging.info(f"Rows before dropping target NaNs - Train: {len(train_df)}, Test: {len(test_df)}")
+            
+                train_df = train_df.dropna()
+                test_df = test_df.dropna()
+            
+                logging.info(f"Rows after dropping target NaNs - Train: {len(train_df)}, Test: {len(test_df)}")
             
                 train_df = self.clean_memory_storage_columns(train_df)
                 train_df = self.filter_outliers_and_ranges(train_df)
@@ -106,26 +120,30 @@ class DataTransformation:
                 test_df = self.filter_outliers_and_ranges(test_df)
                 
                 logging.info("Cleaning and Filtering outliers completed")
-                
+            
                 logging.info("obtaining preprocessing object")
                 preprocessing_obj = self.get_data_transformer_obj()
                 
-                target_column_name = "Selling Price"
                 
-                input_feature_train_df = train_df.drop(columns=[target_column_name], axis=1)
-                target_feature_train_df = train_df[target_column_name]
+                input_feature_train_df = train_df.drop(columns=["Selling Price"])
+                target_feature_train_df = train_df[["Selling Price"]]
 
-                input_feature_test_df = test_df.drop(columns=[target_column_name], axis=1)
-                target_feature_test_df = test_df[target_column_name]
+                input_feature_test_df = test_df.drop(columns=["Selling Price"])
+                target_feature_test_df = test_df[["Selling Price"]]
                 
                 logging.info("Applying preprocessing object on training and testing dataframes.")
                 
                 input_feature_train_arr = preprocessing_obj.fit_transform(input_feature_train_df)
                 input_feature_test_arr = preprocessing_obj.transform(input_feature_test_df)
                 
-                train_arr = np.c_[input_feature_train_arr, np.array(target_feature_train_df)]
-                test_arr = np.log1p(np.c_[input_feature_test_arr, np.array(target_feature_test_df)])
-                
+                # 1. Transform only the target labels into log values (to stabilize target distribution)
+                target_feature_train_arr = np.log1p(np.array(target_feature_train_df))
+                target_feature_test_arr = np.log1p(np.array(target_feature_test_df))
+
+                # 2. Combine the processed feature arrays and target arrays horizontally side-by-side
+                train_arr = np.c_[input_feature_train_arr, target_feature_train_arr]
+                test_arr = np.c_[input_feature_test_arr, target_feature_test_arr]
+
                 logging.info("Saving preprocessing object.")
                 save_object(
                 file_path=self.data_transformation_config.preprocessor_obj_file_path,
